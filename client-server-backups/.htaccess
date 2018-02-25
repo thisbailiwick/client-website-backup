@@ -1,0 +1,16 @@
+# this is especially for when clients hosting limits us to public html directory access only
+<Directory /backup-run/>
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+</Directory>
+<Directory /database-backups/>
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+</Directory>
+<Directory /site-backup/>
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+</Directory>
