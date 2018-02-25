@@ -8,7 +8,6 @@ Gather client backups of directory structure and databases from remote servers a
 			* /backup-run - Holds the files for the backup scripts on the client server.
 			* /database-backups - Where the database backups are stored.
 			* /site-backup - Where the site backup is stored.
-* Use
 * **Todo**
 	* Allow default and optional configs for path variables
 	* Instead of separate script for site backups where the backup is larger than 5gb's; do a size check after initial tar and then split. (there is an example (and it's in use for one client) now, but leaving for more testing due to below)
