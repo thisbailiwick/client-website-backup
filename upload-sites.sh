@@ -5,8 +5,10 @@
 #https://rclone.org/box/
 
 
-cd $(dirname ./wr-backup/run_site.sh)
-echo pwd
+BASEDIRECTORY=$(dirname ./wr-backup/upload-sites.sh)
+if [ -d "$BASEDIRECTORY" ]; then
+  cd $BASEDIRECTORY
+fi
 
 if pidof -o %PPID -x "upload-sites.sh"; then
 exit 1

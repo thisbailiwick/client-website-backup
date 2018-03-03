@@ -4,8 +4,10 @@
 #Uses rclone (https://github.com/ncw/rclone) to sync any new files to box.com
 #https://rclone.org/box/
 
-cd $(dirname ./wr-backup/run_site.sh)
-echo pwd
+BASEDIRECTORY=$(dirname ./wr-backup/upload-dbs.sh)
+if [ -d "$BASEDIRECTORY" ]; then
+  cd $BASEDIRECTORY
+fi
 
 if pidof -o %PPID -x "upload-dbs.sh"; then
 exit 1

@@ -1,6 +1,9 @@
 #!/bin/bash
 #make sure we're in the right directory
-cd $(dirname ./wr-backup/run_site.sh)
+BASEDIRECTORY=$(dirname ./wr-backup/run_site.sh)
+if [ -d "$BASEDIRECTORY" ]; then
+  cd $BASEDIRECTORY
+fi
 SITES=(
     #add --split at the end of the path if backup file is split due to box.com upload limitations
     '$urltoserver::$ssh_username::/path/to/parent-directory-of-root-backup-directory/[---split]'
