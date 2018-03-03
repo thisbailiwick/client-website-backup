@@ -28,7 +28,7 @@ for domain in "${SITES[@]}"; do
 			echo "rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} /mnt/volume-sfo2-01/site-backups/${DOMAIN}/site_${COUNTER}"
 
 			rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} /mnt/volume-sfo2-01/site-backups/${DOMAIN}/site_${COUNTER}.split
-			if [ "$?" -eq "$COUNTER"]
+			if [ "$?" -eq "$COUNTER" ]
 			then
 				break
 			fi
