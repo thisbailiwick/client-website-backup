@@ -28,9 +28,9 @@ for domain in "${SITES[@]}"; do
 		# backup files are split into pieces due to box.com filesize limitation
 		COUNTER=0
 	 	while [  $COUNTER -lt 10	 ]; do
-			echo "rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} /mnt/volume-sfo2-01/site-backups/${DOMAIN}/site_${COUNTER}"
+			echo "rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} ./site-backups/${DOMAIN}/site_${COUNTER}"
 
-			rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} /mnt/volume-sfo2-01/site-backups/${DOMAIN}/site_${COUNTER}.split
+			rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} ./site-backups/${DOMAIN}/site_${COUNTER}.split
 			if [ "$?" -eq "$COUNTER" ]
 			then
 				break
@@ -41,7 +41,7 @@ for domain in "${SITES[@]}"; do
 	else
 		# backup is one file
 		echo one file
-		echo "rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz /mnt/volume-sfo2-01/site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz"
-		rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz /mnt/volume-sfo2-01/site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz
+		echo "rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz ./site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz"
+		rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz ./site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz
 	fi
 done

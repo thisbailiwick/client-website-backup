@@ -20,7 +20,7 @@ fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-for PATH in $(find /mnt/volume-sfo2-01/site-backups -type f -name '*.tar.gz' -or -name '*.split'); do
+for PATH in $(find ./site-backups -type f -name '*.tar.gz' -or -name '*.split'); do
   PATHSUB="${PATH%/*}"
   PATHSUB="${PATHSUB#*volume-sfo2-01/}"
   echo -en "\033[2K"
