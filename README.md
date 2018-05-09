@@ -1,5 +1,6 @@
 # client-website-backup
-Gather client backups of directory structure and databases from remote servers and upload to box.com
+Gather client backups of directory structure and databases from remote servers and upload to box.com.
+Remote client files are created via `run_site.sh` and `run_db.sh` then after creation and syncing to local they are deleted on the clients remote server.
 
 
 * **Some local paths have hardcoded parts**
