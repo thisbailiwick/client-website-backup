@@ -24,7 +24,7 @@ for domain in "${SITES[@]}"; do
 	#ssh into reomote client
 	#create db backup
 	ssh ${USERNAME}@${DOMAIN} /bin/bash <<-EOF
-		php ./${REMOTEPATH}backups/backup-run/hide-database_backups.php
+		php ./${REMOTEPATH}backups/backup-run/database_backups.php
 	EOF
 	wait
 

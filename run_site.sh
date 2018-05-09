@@ -23,6 +23,16 @@ for domain in "${SITES[@]}"; do
 	echo "${USERNAME}"
 	echo "${REMOTEPATH}"
 
+	# ssh into remote client server and run site backup
+	ssh ${USERNAME}@${DOMAIN} /bin/bash <<-EOF
+		php ./${REMOTEPATH}backups/backup-run/site_backups.php
+	EOF
+	wait
+	
+	# make the local dirs if necessary
+	mkdir -p ./site-backups/${DOMAIN}
+
+
 	if [[ $SPLIT = "split" ]]
 	then
 		# backup files are split into pieces due to box.com filesize limitation
@@ -41,15 +51,6 @@ for domain in "${SITES[@]}"; do
 	else
 		# backup is one file
 		echo 'one file'
-
-		# ssh into remote client server and run site backup
-		ssh ${USERNAME}@${DOMAIN} /bin/bash <<-EOF
-			php ./${REMOTEPATH}backups/backup-run/hide-site_backups.php
-		EOF
-		wait
-
-		# make the local dirs if necessary
-		mkdir -p ./site-backups/${DOMAIN}
 
 		# run the transfer from the clients server to local
 		echo "rsync -avz --progress --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz ./site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz"
