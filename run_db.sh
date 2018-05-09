@@ -20,7 +20,20 @@ for domain in "${SITES[@]}"; do
 	REMOTEPATH="${domain##*::}"
 	echo remotepath ${REMOTEPATH}
 	echo username ${USERNAME}
-	echo "rsync -avz --progress ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/database-backups/* ./site-backups/${DOMAIN}"
-	mkdir -p ./${DOMAIN}
-	rsync -avz --progress --delete ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/database-backups/* ./site-backups/${DOMAIN}
+
+	#ssh into reomote client
+	#create db backup
+	ssh ${USERNAME}@${DOMAIN} /bin/bash <<-EOF
+		php ./${REMOTEPATH}backups/backup-run/hide-database_backups.php
+	EOF
+	wait
+
+	#make the directories if need be
+	mkdir -p ./site-backups/${DOMAIN}
+	
+	#transfer and delete db backup echo
+	echo "rsync -avz --progress --remove-source-files ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/database-backups/* ./site-backups/${DOMAIN}"
+
+	##transfer and delete db backup
+	rsync -avz --progress --remove-source-files --delete ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/database-backups/* ./site-backups/${DOMAIN}
 done
