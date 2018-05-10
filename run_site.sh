@@ -24,36 +24,21 @@ for domain in "${SITES[@]}"; do
 	echo "${REMOTEPATH}"
 
 	# ssh into remote client server and run site backup
+  echo "php ${REMOTEPATH}backups/backup-run/site_backups.php"
 	ssh ${USERNAME}@${DOMAIN} /bin/bash <<-EOF
-		php ./${REMOTEPATH}backups/backup-run/site_backups.php
+    if [[ $REMOTEPATH = "" ]]
+    then
+      php ./backups/backup-run/site_backups.php
+    else
+      php ${REMOTEPATH}backups/backup-run/site_backups.php
+    fi
 	EOF
 	wait
-	
+
 	# make the local dirs if necessary
 	mkdir -p ./site-backups/${DOMAIN}
 
-
-	if [[ $SPLIT = "split" ]]
-	then
-		# backup files are split into pieces due to box.com filesize limitation
-		COUNTER=0
-	 	while [  $COUNTER -lt 10	 ]; do
-			echo "rsync -avz --progress --remove-source-files --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} ./site-backups/${DOMAIN}/site_${COUNTER}"
-
-			rsync -avz --progress --remove-source-files --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site_${COUNTER} ./site-backups/${DOMAIN}/site_${COUNTER}.split
-			if [ "$?" -eq "$COUNTER" ]
-			then
-				break
-			fi
-			echo $?
-			let COUNTER=COUNTER+1
-		done
-	else
-		# backup is one file
-		echo 'one file'
-
-		# run the transfer from the clients server to local
-		echo "rsync -avz --progress --remove-source-files --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz ./site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz"
-		rsync -avz --progress --remove-source-files --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/site-backup.tar.gz ./site-backups/${DOMAIN}/${DOMAIN}-site-backup.tar.gz
-	fi
+	# run the transfer from the clients server to local
+	echo "rsync -avz --progress --remove-source-files --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/* ./site-backups/${DOMAIN}"
+	rsync -avz --progress --remove-source-files --timeout=10800 ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/site-backup/* ./site-backups/${DOMAIN}
 done

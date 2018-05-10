@@ -24,13 +24,18 @@ for domain in "${SITES[@]}"; do
 	#ssh into reomote client
 	#create db backup
 	ssh ${USERNAME}@${DOMAIN} /bin/bash <<-EOF
-		php ./${REMOTEPATH}backups/backup-run/database_backups.php
+    if [[ -z "$REMOTEPATH" ]]
+    then
+      php ./backups/backup-run/database_backups.php
+    else
+	    php ${REMOTEPATH}backups/backup-run/database_backups.php
+    fi
 	EOF
 	wait
 
 	#make the directories if need be
 	mkdir -p ./site-backups/${DOMAIN}
-	
+
 	#transfer and delete db backup echo
 	echo "rsync -avz --progress --remove-source-files ${USERNAME}@${DOMAIN}:${REMOTEPATH}backups/database-backups/* ./site-backups/${DOMAIN}"
 
