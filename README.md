@@ -11,9 +11,5 @@ Remote client files are created via `run_site.sh` and `run_db.sh` then after cre
 			* /site-backup - Where the site backup is stored.
 * **Todo**
 	* Allow default and optional configs for path variables
-	* Instead of separate script for site backups where the backup is larger than 5gb's; do a size check after initial tar and then split. (there is an example (and it's in use for one client) now, but leaving for more testing due to below)
-		* The above may not actually be possible do to ram/storage limitations.
-		* Possible to get a value from 'du'?
-			* http://manpages.ubuntu.com/manpages/xenial/man1/du.1.html
 	* Some clients have no ssh access. Use rclone ftp capabilites to sync over files.
 		* https://rclone.org/ftp/
