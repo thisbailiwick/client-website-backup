@@ -21,12 +21,14 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 for PATH in $(find ./site-backups -type f -name '*.tar.gz' -or -name '*.split'); do
-  PATHSUB="${PATH%/*}"
-  PATHSUB="${PATHSUB#*volume-sfo2-01/}"
+  PATHLOCAL=${PATH}
+  PATH=${PATH/.\/}
+  PATH=${PATH%/*}
   echo -en "\033[2K"
-  echo -en "${RED}${PATHSUB}${NC}\r"
+  echo -en "${RED}${PATH}${NC}\r"
+  # echo "/usr/bin/rclone copy ${PATHLOCAL} 'box:Website Review/'${PATH} -v --box-upload-cutoff=50M --log-file=./upload-sites.log --low-level-retries=12\n\n"
   {
-    /usr/bin/rclone copy ${PATH} 'box:Website Review/'${PATHSUB} -v --box-upload-cutoff=50M --log-file=./upload-sites.log --low-level-retries=12
+    /usr/bin/rclone copy ${PATHLOCAL} 'box:Website Review/'${PATH} -v --box-upload-cutoff=50M --log-file=./upload-sites.log --low-level-retries=12
   }
 done
 echo -en "\033[2K"
